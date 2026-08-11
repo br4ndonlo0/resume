@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --bg-color: #ffffff;
+    --text-main: #111111;
+    --text-muted: #666666;
+    --accent: #000000;
+    --border: #eaeaea;
+    --card-bg: #ffffff;
+    --card-hover-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
