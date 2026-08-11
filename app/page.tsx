@@ -113,7 +113,7 @@ export default function Home() {
         <h2>Experience</h2>
         <div className="grid-layout grid-1-col">
           <div className="card flip-trigger">
-            <div className="company-logo" style={{ background: '#1e3a8a', color: 'white' }}>HTX</div>
+            <div className="company-logo" style={{ background: 'white', overflow: 'hidden' }}><img src="/htx-logo.png" alt="HTX" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
             <h3>HTX (Home Team Science & Technology)</h3>
             <div className="role-title">Enterprise AI Products Intern</div>
             <p>Designed and built an agentic AI workflow frontend to empower non-technical users.</p>
