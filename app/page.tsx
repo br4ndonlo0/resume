@@ -174,20 +174,22 @@ export default function Home() {
               </div>
             </div>
           </Link>
-          <div className="card">
-            <h3>Bank Buddy</h3>
-            <div className="role-title">Jane Street iNTUition 2026 Hackathon</div>
-            <p>Developed an accessibility-first fintech frontend emphasizing inclusivity and performance.</p>
-            <ul>
-              <li>Delivered voice navigation and 13-language support with a &lt;2s load time (90+ Lighthouse score).</li>
-              <li>Utilized <strong>Claude Code</strong> as an agentic AI coding assistant to accelerate component architecture and quality.</li>
-            </ul>
-            <div className="tags">
-              <span className="tag">Next.js</span>
-              <span className="tag">TypeScript</span>
-              <span className="tag">Agentic AI</span>
+          <Link href="/projects/intuition" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="card" style={{ height: '100%' }}>
+              <h3>Bank Buddy</h3>
+              <div className="role-title">Jane Street iNTUition 2026 Hackathon</div>
+              <p>Developed an accessibility-first fintech frontend emphasizing inclusivity and performance.</p>
+              <ul>
+                <li>Delivered voice navigation and 13-language support with a &lt;2s load time (90+ Lighthouse score).</li>
+                <li>Utilized <strong>Claude Code</strong> as an agentic AI coding assistant to accelerate component architecture and quality.</li>
+              </ul>
+              <div className="tags">
+                <span className="tag">Next.js</span>
+                <span className="tag">TypeScript</span>
+                <span className="tag">Agentic AI</span>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
       </section>
 
