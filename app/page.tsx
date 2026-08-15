@@ -1,91 +1,88 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const typewriterRef = useRef<HTMLSpanElement>(null);
-  
+  // Default to full name so it's visible immediately and on SSR/slow JS
+  const [typedText, setTypedText] = useState("Brandon Loo");
+
   useEffect(() => {
-    /* Typewriter Effect */
+    // Reset to empty string to run typing animation cleanly on mount
+    setTypedText("");
     const textToType = "Brandon Loo";
-    const typewriterElement = typewriterRef.current;
-    if (!typewriterElement) return;
-    
-    // Clear first in case of strict mode double mount
-    typewriterElement.textContent = "";
     let typeIndex = 0;
     let timeoutId: NodeJS.Timeout;
 
     function typeWriter() {
-      if (typewriterElement && typeIndex < textToType.length) {
-        typewriterElement.textContent += textToType.charAt(typeIndex);
+      if (typeIndex < textToType.length) {
+        setTypedText(textToType.slice(0, typeIndex + 1));
         typeIndex++;
-        timeoutId = setTimeout(typeWriter, 100 + Math.random() * 80);
+        timeoutId = setTimeout(typeWriter, 90 + Math.random() * 70);
       }
     }
-    
-    timeoutId = setTimeout(typeWriter, 500);
-    
+
+    timeoutId = setTimeout(typeWriter, 300);
+
     /* 3D Flip on Scroll Observer */
-    const observer = new IntersectionObserver((entries) => {
+    const flipObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
-    }, { 
-      threshold: 0.5,
-      rootMargin: "0px 0px -100px 0px"
-    });
+    }, { threshold: 0.3, rootMargin: "0px 0px -50px 0px" });
 
     const triggers = document.querySelectorAll('.flip-trigger');
-    triggers.forEach(el => observer.observe(el));
-    
+    triggers.forEach(el => flipObserver.observe(el));
+
     return () => {
       clearTimeout(timeoutId);
-      triggers.forEach(el => observer.unobserve(el));
+      triggers.forEach(el => flipObserver.unobserve(el));
     };
   }, []);
 
   return (
     <div className="container max-w-[1000px] mx-auto px-8">
-      {/* Global Component Styles matching Vanilla CSS implementation */}
+      {/* Global Component Styles */}
       <style dangerouslySetInnerHTML={{__html: `
-        section { padding: 6rem 0; border-bottom: 1px solid var(--border); }
+        html { scroll-behavior: smooth; }
+        .page-nav { display: flex; justify-content: center; gap: 2.25rem; margin-bottom: 2rem; }
+        .page-nav a { color: var(--text-muted); text-decoration: none; font-size: 1.05rem; font-weight: 500; transition: color 0.2s; }
+        .page-nav a:hover { color: var(--text-main); }
+
+        section { padding: 4.5rem 0; border-bottom: 1px solid var(--border); }
         section:last-child { border-bottom: none; }
         h1 { font-family: var(--font-space-grotesk); font-size: clamp(3rem, 6vw, 5rem); letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1rem; color: var(--text-main); }
         h2 { font-family: var(--font-space-grotesk); font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 2.5rem; color: var(--text-main); letter-spacing: -0.5px; }
         h3 { font-size: 1.3rem; color: var(--text-main); margin-bottom: 0.2rem; font-weight: 600; }
         .role-title { color: var(--text-muted); font-weight: 500; margin-bottom: 1rem; font-size: 1rem; }
         p { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 1rem; }
-        .subtitle { font-size: clamp(1.1rem, 2vw, 1.5rem); color: var(--text-muted); margin-bottom: 3rem; font-weight: 400; }
-        
+        .subtitle { font-size: clamp(1.1rem, 2vw, 1.5rem); color: var(--text-muted); margin-bottom: 2.5rem; font-weight: 400; }
+
         .typewriter-cursor { color: var(--accent); font-weight: 300; animation: blink 1s step-end infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        
+
         .badge { display: inline-flex; align-items: center; padding: 0.4rem 1rem; background: #f5f5f5; border: 1px solid var(--border); color: var(--text-main); border-radius: 50px; font-size: 0.85rem; font-weight: 500; margin-bottom: 1.5rem; }
-        
+
         .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
         .btn { display: inline-block; padding: 0.8rem 1.8rem; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: all 0.2s ease; border-radius: 4px; cursor: pointer; }
         .btn-primary { background: var(--accent); color: #ffffff; border: 1px solid var(--accent); }
         .btn-primary:hover { background: #333333; border-color: #333333; }
         .btn-secondary { background: transparent; color: var(--text-main); border: 1px solid var(--border); }
         .btn-secondary:hover { border-color: var(--text-main); }
-        
+
         .grid-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
         @media (min-width: 768px) { .grid-layout { grid-template-columns: 1fr 1fr; } .grid-1-col { grid-template-columns: 1fr; } }
-        
+
         .card { background: var(--card-bg); border: 1px solid var(--border); padding: 2.5rem; border-radius: 8px; transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; }
         .card:hover { transform: translateY(-3px); box-shadow: var(--card-hover-shadow); }
         .card ul { margin-left: 1.2rem; margin-top: 1rem; color: var(--text-muted); }
         .card li { margin-bottom: 0.6rem; font-size: 0.95rem; }
-        
+
         .company-logo { display: inline-flex; align-items: center; justify-content: center; width: 70px; height: 70px; background: var(--text-main); color: var(--bg-color); font-family: var(--font-space-grotesk); font-weight: 700; font-size: 1.4rem; border-radius: 12px; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.08); opacity: 0; transform: perspective(1000px) rotateX(-70deg) translateY(30px); transform-origin: center bottom; transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s ease; }
         .visible .company-logo { opacity: 1; transform: perspective(1000px) rotateX(0) translateY(0); }
-        
+
         .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
         .tag { background: #f8f8f8; border: 1px solid var(--border); color: var(--text-muted); padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.8rem; font-weight: 500; }
-        
+
         footer { padding: 4rem 0 3rem; text-align: center; }
         .contact-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 2rem; }
         .contact-links a { color: var(--text-muted); text-decoration: none; font-size: 1rem; font-weight: 500; transition: color 0.2s; }
@@ -93,17 +90,29 @@ export default function Home() {
       `}} />
 
       {/* Section 1: Hero */}
-      <section id="hero" style={{ paddingTop: '10rem', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
+      <section id="hero" style={{ paddingTop: '2.5rem', paddingBottom: '3.5rem' }}>
         <div>
-          <div className="badge">DSO-NTU Software Security CTF '26 - 2nd Place</div>
-          <h1>
-            <span ref={typewriterRef} id="typewriter-text"></span>
+          <nav className="page-nav">
+            <a href="#hero">Home</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#leadership">Life</a>
+          </nav>
+          <h1 style={{ marginTop: '2rem' }}>
+            <span id="typewriter-text">{typedText}</span>
             <span className="typewriter-cursor">|</span>
           </h1>
-          <div className="subtitle">Agentic AI & Systems Engineer | NTU Computer Science</div>
+          <div className="subtitle">Computer Science @ NTU</div>
           <div className="btn-group">
             <a href="#experience" className="btn btn-primary">Explore Experience</a>
-            <a href="#" className="btn btn-secondary">Download Resume</a>
+            <a 
+              href="https://1drv.ms/b/c/b96af1ecdfc22469/IQBgy9Alw76tR5CdyAQiQHcNAVBOKktL45qi7tUfFuRxAVQ?e=bxeB7Q&download=1" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn btn-secondary"
+            >
+              Download Resume
+            </a>
           </div>
         </div>
       </section>
@@ -124,7 +133,7 @@ export default function Home() {
             </ul>
           </div>
           <div className="card flip-trigger">
-            <div className="company-logo" style={{ background: '#a100ff', color: 'white' }}>ACN</div>
+            <div className="company-logo" style={{ background: 'white', overflow: 'hidden' }}><img src="/accenture-logo.png" alt="Accenture" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
             <h3>Accenture</h3>
             <div className="role-title">IT Business Analyst Intern</div>
             <p>Bridged the gap between business requirements and technical execution.</p>
@@ -237,9 +246,8 @@ export default function Home() {
         <footer>
           <div className="contact-links">
             <a href="mailto:brandonloo2002@gmail.com">Email Me</a>
-            <a href="tel:+6584817223">Call +65 84817223</a>
             <a href="#">GitHub</a>
-            <a href="#">LinkedIn</a>
+            <a href="https://www.linkedin.com/in/brandon-loo-kj/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           </div>
         </footer>
       </section>

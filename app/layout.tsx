@@ -7,7 +7,7 @@ const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space
 
 export const metadata: Metadata = {
   title: "Brandon Loo | Portfolio",
-  description: "Agentic AI & Systems Engineer | NTU Computer Science",
+  description: "Computer Science @ NTU",
 };
 
 export default function RootLayout({
