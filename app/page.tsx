@@ -1,10 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+
+
 
 export default function Home() {
   // Default to full name so it's visible immediately and on SSR/slow JS
   const [typedText, setTypedText] = useState("Brandon Loo");
+
 
   useEffect(() => {
     // Reset to empty string to run typing animation cleanly on mount
@@ -40,13 +44,13 @@ export default function Home() {
   }, []);
 
   return (
+    <>
+
     <div className="container max-w-[1000px] mx-auto px-8">
       {/* Global Component Styles */}
       <style dangerouslySetInnerHTML={{__html: `
         html { scroll-behavior: smooth; }
-        .page-nav { display: flex; justify-content: center; gap: 2.25rem; margin-bottom: 2rem; }
-        .page-nav a { color: var(--text-muted); text-decoration: none; font-size: 1.05rem; font-weight: 500; transition: color 0.2s; }
-        .page-nav a:hover { color: var(--text-main); }
+        .theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.2rem; padding: 0; color: var(--text-main); display: flex; align-items: center; }
 
         section { padding: 4.5rem 0; border-bottom: 1px solid var(--border); }
         section:last-child { border-bottom: none; }
@@ -60,12 +64,12 @@ export default function Home() {
         .typewriter-cursor { color: var(--accent); font-weight: 300; animation: blink 1s step-end infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        .badge { display: inline-flex; align-items: center; padding: 0.4rem 1rem; background: #f5f5f5; border: 1px solid var(--border); color: var(--text-main); border-radius: 50px; font-size: 0.85rem; font-weight: 500; margin-bottom: 1.5rem; }
+        .badge { display: inline-flex; align-items: center; padding: 0.4rem 1rem; background: var(--badge-bg); border: 1px solid var(--border); color: var(--text-main); border-radius: 50px; font-size: 0.85rem; font-weight: 500; margin-bottom: 1.5rem; }
 
         .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
         .btn { display: inline-block; padding: 0.8rem 1.8rem; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: all 0.2s ease; border-radius: 4px; cursor: pointer; }
-        .btn-primary { background: var(--accent); color: #ffffff; border: 1px solid var(--accent); }
-        .btn-primary:hover { background: #333333; border-color: #333333; }
+        .btn-primary { background: var(--text-main); color: var(--bg-color); border: 1px solid var(--text-main); }
+        .btn-primary:hover { opacity: 0.8; }
         .btn-secondary { background: transparent; color: var(--text-main); border: 1px solid var(--border); }
         .btn-secondary:hover { border-color: var(--text-main); }
 
@@ -81,7 +85,13 @@ export default function Home() {
         .visible .company-logo { opacity: 1; transform: perspective(1000px) rotateX(0) translateY(0); }
 
         .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
-        .tag { background: #f8f8f8; border: 1px solid var(--border); color: var(--text-muted); padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.8rem; font-weight: 500; }
+        .tag { background: var(--tag-bg); border: 1px solid var(--border); color: var(--text-muted); padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.8rem; font-weight: 500; }
+
+        .hero-content { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin-top: 2rem; }
+        .hero-content .btn-group { justify-content: center; }
+        .hero-video-container { position: relative; width: 100%; border-radius: 12px; overflow: hidden; background: transparent; display: flex; align-items: center; justify-content: center; }
+        .hero-video { width: 100%; height: 100%; object-fit: contain; display: block; mix-blend-mode: multiply; }
+        .dark .hero-video { filter: invert(1); mix-blend-mode: screen; }
 
         footer { padding: 4rem 0 3rem; text-align: center; }
         .contact-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 2rem; }
@@ -90,30 +100,27 @@ export default function Home() {
       `}} />
 
       {/* Section 1: Hero */}
-      <section id="hero" style={{ paddingTop: '2.5rem', paddingBottom: '3.5rem' }}>
-        <div>
-          <nav className="page-nav">
-            <a href="#hero">Home</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a href="#leadership">Life</a>
-          </nav>
-          <h1 style={{ marginTop: '2rem' }}>
-            <span id="typewriter-text">{typedText}</span>
-            <span className="typewriter-cursor">|</span>
-          </h1>
-          <div className="subtitle">Computer Science @ NTU</div>
-          <div className="btn-group">
-            <a href="#experience" className="btn btn-primary">Explore Experience</a>
-            <a 
-              href="https://1drv.ms/b/c/b96af1ecdfc22469/IQBgy9Alw76tR5CdyAQiQHcNAVBOKktL45qi7tUfFuRxAVQ?e=bxeB7Q&download=1" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn btn-secondary"
-            >
-              Download Resume
-            </a>
+      <section id="hero" style={{ paddingTop: '1.5rem', paddingBottom: '3.5rem' }}>
+        <div className="hero-content">
+          <div className="hero-text">
+            <h1>
+              <span id="typewriter-text">{typedText}</span>
+              <span className="typewriter-cursor">|</span>
+            </h1>
+            <div className="subtitle">Computer Science @ NTU</div>
+            <div className="btn-group">
+              <a href="#experience" className="btn btn-primary">Explore Experience</a>
+              <a 
+                href="https://1drv.ms/b/c/b96af1ecdfc22469/IQBgy9Alw76tR5CdyAQiQHcNAVBOKktL45qi7tUfFuRxAVQ?e=bxeB7Q&download=1" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn btn-secondary"
+              >
+                Download Resume
+              </a>
+            </div>
           </div>
+
         </div>
       </section>
 
@@ -149,22 +156,24 @@ export default function Home() {
       <section id="projects">
         <h2>Featured Projects</h2>
         <div className="grid-layout">
-          <div className="card">
-            <h3>NTU Capstone: Biometric System</h3>
-            <div className="role-title">Team Leader & Developer</div>
-            <p>Architected a real-time face recognition and liveness detection system using MediaPipe and FaceNet.</p>
-            <ul>
-              <li>Engineered a 4-microservice architecture ensuring modularity and scalability.</li>
-              <li>Implemented privacy-by-design storage (retaining only transformed hash templates) with JWT auth and RBAC.</li>
-            </ul>
-            <div className="tags">
-              <span className="tag">Next.js</span>
-              <span className="tag">FastAPI</span>
-              <span className="tag">Docker</span>
-              <span className="tag">PostgreSQL</span>
-              <span className="tag">Redis</span>
+          <Link href="/projects" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div className="card" style={{ height: '100%' }}>
+              <h3>NTU Capstone: Biometric System</h3>
+              <div className="role-title">Team Leader & Developer</div>
+              <p>Architected a real-time face recognition and liveness detection system using MediaPipe and FaceNet.</p>
+              <ul>
+                <li>Engineered a 4-microservice architecture ensuring modularity and scalability.</li>
+                <li>Implemented privacy-by-design storage (retaining only transformed hash templates) with JWT auth and RBAC.</li>
+              </ul>
+              <div className="tags">
+                <span className="tag">Next.js</span>
+                <span className="tag">FastAPI</span>
+                <span className="tag">Docker</span>
+                <span className="tag">PostgreSQL</span>
+                <span className="tag">Redis</span>
+              </div>
             </div>
-          </div>
+          </Link>
           <div className="card">
             <h3>Bank Buddy</h3>
             <div className="role-title">Jane Street iNTUition 2026 Hackathon</div>
@@ -246,11 +255,12 @@ export default function Home() {
         <footer>
           <div className="contact-links">
             <a href="mailto:brandonloo2002@gmail.com">Email Me</a>
-            <a href="#">GitHub</a>
+            <a href="https://github.com/br4ndonlo0" target="_blank" rel="noopener noreferrer">GitHub</a>
             <a href="https://www.linkedin.com/in/brandon-loo-kj/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           </div>
         </footer>
       </section>
     </div>
+    </>
   );
 }
