@@ -76,8 +76,12 @@ export default function Home() {
         .grid-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
         @media (min-width: 768px) { .grid-layout { grid-template-columns: 1fr 1fr; } .grid-1-col { grid-template-columns: 1fr; } }
 
-        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 2.5rem; border-radius: 8px; transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); padding: 2.5rem; border-radius: 8px; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column; }
         .card:hover { transform: translateY(-3px); box-shadow: var(--card-hover-shadow); }
+        .project-card:hover { border-color: var(--text-main); cursor: pointer; }
+        .project-card h3 { display: flex; justify-content: space-between; align-items: center; }
+        .project-card h3::after { content: ''; display: inline-block; width: 1.1rem; height: 1.1rem; background-color: var(--text-main); mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17L17 7M7 7h10v10'/%3E%3C/svg%3E") no-repeat center / contain; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17L17 7M7 7h10v10'/%3E%3C/svg%3E") no-repeat center / contain; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease; transform: translateX(-5px) translateY(5px); }
+        .project-card:hover h3::after { opacity: 1; transform: translateX(0) translateY(0); }
         .card ul { margin-left: 1.2rem; margin-top: 1rem; color: var(--text-muted); }
         .card li { margin-bottom: 0.6rem; font-size: 0.95rem; }
 
@@ -157,7 +161,7 @@ export default function Home() {
         <h2>Featured Projects</h2>
         <div className="grid-layout">
           <Link href="/projects" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div className="card" style={{ height: '100%' }}>
+            <div className="card project-card" style={{ height: '100%' }}>
               <h3>NTU Capstone: Biometric System</h3>
               <div className="role-title">Team Leader & Developer</div>
               <p>Architected a real-time face recognition and liveness detection system using MediaPipe and FaceNet.</p>
@@ -175,7 +179,7 @@ export default function Home() {
             </div>
           </Link>
           <Link href="/projects/intuition" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div className="card" style={{ height: '100%' }}>
+            <div className="card project-card" style={{ height: '100%' }}>
               <h3>Bank Buddy</h3>
               <div className="role-title">Jane Street iNTUition 2026 Hackathon</div>
               <p>Developed an accessibility-first fintech frontend emphasizing inclusivity and performance.</p>
@@ -204,6 +208,7 @@ export default function Home() {
             <span className="tag" style={{ background: '#111', color: '#fff', borderColor: '#111' }}>Model Context Protocol (MCP)</span>
             <span className="tag" style={{ background: '#111', color: '#fff', borderColor: '#111' }}>OpenCode</span>
             <span className="tag" style={{ background: '#111', color: '#fff', borderColor: '#111' }}>Claude Code</span>
+            <span className="tag" style={{ background: '#111', color: '#fff', borderColor: '#111' }}>Google Antigravity</span>
           </div>
         </div>
         <div className="grid-layout">
